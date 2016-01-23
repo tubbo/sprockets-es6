@@ -5,11 +5,11 @@ require 'sprockets/es6'
 class TestES6 < MiniTest::Test
   def setup
     @env = Sprockets::Environment.new
-    @env.append_path File.expand_path("../fixtures", __FILE__)
+    @env.append_path File.expand_path('../fixtures', __FILE__)
   end
 
   def test_require_asset
-    assert asset = @env["require_asset"]
+    assert asset = @env['require_asset']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 "use strict";
@@ -21,7 +21,7 @@ var square = function square(n) {
   end
 
   def test_transform_arrow_function
-    assert asset = @env["math.js"]
+    assert asset = @env['math.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 "use strict";
@@ -34,7 +34,7 @@ var square = function square(n) {
 
   def test_common_modules
     register Sprockets::ES6.new('modules' => 'common')
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 "use strict";
@@ -45,7 +45,7 @@ require("foo");
 
   def test_amd_modules
     register Sprockets::ES6.new('modules' => 'amd')
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 define(["exports", "foo"], function (exports, _foo) {
@@ -56,7 +56,7 @@ define(["exports", "foo"], function (exports, _foo) {
 
   def test_amd_modules_with_ids
     register Sprockets::ES6.new('modules' => 'amd', 'moduleIds' => true)
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 define("mod", ["exports", "foo"], function (exports, _foo) {
@@ -67,7 +67,7 @@ define("mod", ["exports", "foo"], function (exports, _foo) {
 
   def test_amd_modules_with_ids_and_root
     register Sprockets::ES6.new('modules' => 'amd', 'moduleIds' => true, 'moduleRoot' => 'root')
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 define("root/mod", ["exports", "foo"], function (exports, _foo) {
@@ -78,7 +78,7 @@ define("root/mod", ["exports", "foo"], function (exports, _foo) {
 
   def test_system_modules
     register Sprockets::ES6.new('modules' => 'system')
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 System.register(["foo"], function (_export) {
@@ -94,7 +94,7 @@ System.register(["foo"], function (_export) {
 
   def test_system_modules_with_ids
     register Sprockets::ES6.new('modules' => 'system', 'moduleIds' => true)
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 System.register("mod", ["foo"], function (_export) {
@@ -110,7 +110,7 @@ System.register("mod", ["foo"], function (_export) {
 
   def test_system_modules_with_ids_and_root
     register Sprockets::ES6.new('modules' => 'system', 'moduleIds' => true, 'moduleRoot' => 'root')
-    assert asset = @env["mod.js"]
+    assert asset = @env['mod.js']
     assert_equal 'application/javascript', asset.content_type
     assert_equal <<-JS.chomp, asset.to_s.strip
 System.register("root/mod", ["foo"], function (_export) {
@@ -126,8 +126,8 @@ System.register("root/mod", ["foo"], function (_export) {
 
   def test_caching_takes_filename_into_account
     register Sprockets::ES6.new('modules' => 'system', 'moduleIds' => true, 'moduleRoot' => 'root')
-    mod1 = @env["mod.js"]
-    mod2 = @env["mod2.js"]
+    mod1 = @env['mod.js']
+    mod2 = @env['mod2.js']
     assert_equal <<-JS.chomp, mod1.to_s.strip
 System.register("root/mod", ["foo"], function (_export) {
   "use strict";

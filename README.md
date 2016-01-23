@@ -10,7 +10,6 @@ A Sprockets transformer that converts ES6 code into vanilla ES5 with
 Add the following to your Gemfile:
 
 ```ruby
-gem 'sprockets', '~> 3'
 gem 'sprockets-es6'
 ```
 
