@@ -2,7 +2,9 @@ require 'babel/transpiler'
 require 'sprockets'
 require 'sprockets/es6/version'
 
+# :nodoc:
 module Sprockets
+  # ES6 transpiler for Sprockets
   class ES6
     def self.instance
       @instance ||= new
@@ -27,11 +29,14 @@ module Sprockets
     def call(input)
       data = input[:data]
       result = input[:cache].fetch(@cache_key + [input[:filename]] + [data]) do
+        relative_filename = input[:environment].split_subpath(
+          input[:load_path], input[:filename]
+        )
         opts = {
           'sourceRoot' => input[:load_path],
           'moduleRoot' => nil,
           'filename' => input[:filename],
-          'filenameRelative' => input[:environment].split_subpath(input[:load_path], input[:filename])
+          'filenameRelative' => relative_filename
         }.merge(@options)
 
         if opts['moduleIds'] && opts['moduleRoot']
@@ -47,7 +52,9 @@ module Sprockets
   end
 
   append_path Babel::Transpiler.source_path
-  register_mime_type 'text/ecmascript-6', extensions: ['.es6'], charset: :unicode
+  register_mime_type(
+    'text/ecmascript-6', extensions: ['.es6'], charset: :unicode
+  )
   register_transformer 'text/ecmascript-6', 'application/javascript', ES6
   register_preprocessor 'text/ecmascript-6', DirectiveProcessor
   register_engine '.es6', ES6

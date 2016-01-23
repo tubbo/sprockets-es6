@@ -1,0 +1,14 @@
+Metrics/AbcSize:
+  Exclude:
+    - lib/sprockets/es6.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*.rb
+
+Metrics/LineLength:
+  Exclude:
+    - test/**/*.rb
+
+Metrics/MethodLength:
+  Max: 21
